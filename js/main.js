@@ -34,3 +34,31 @@ function checkInput() {
         addCourseButtonEl.disabled = true;
     }
 }
+
+//lägga till kurs
+function addCourse() {
+
+    var input = addCourseEl.value;
+
+    // skapar nytt element 
+    var newEl = document.createElement("li");
+    var newTextNode = document.createTextNode(input);
+    newEl.appendChild(newTextNode);
+    newEl.className = "course";
+
+    // lägger till till listan
+    courseListEl.appendChild(newEl);
+
+    // lägg till en klickhanterare
+    newEl.addEventListener("click", function (e) {
+        e.target.remove();
+    });
+
+    // raderar input-fält
+    addCourseEl.value = "";
+    addCourseButtonEl.disabled = true;
+    
+    // anropar lagring
+    saveCourses();
+}
+
