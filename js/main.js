@@ -62,3 +62,51 @@ function addCourse() {
     saveCourses();
 }
 
+//spara kurser 
+function saveCourses() {
+
+    // läs in kurslistan 
+    var courses = document.getElementsByClassName("course");
+
+    var tempArr = [];
+
+    // loopar genom listan och lagrar till temporär array
+    for (i = 0; i < courses.length; i++) {
+        tempArr.push(courses[i].innerHTML);
+    }
+
+    //konverterar till JSON-sträng
+    var jsonStr = JSON.stringify(tempArr);
+
+    // lagra i web storage
+    localStorage.setItem("courses", jsonStr);
+
+}
+
+//läsa in kurser
+function loadCourses() {
+
+    // läser in och konverterar JSON till array
+    var courses = JSON.parse(localStorage.getItem("courses"));
+
+    // loopa igenom arrayen
+    for (i = 0; i < courses.length; i++) {
+        // skapar nya element 
+        var newEl = document.createElement("li");
+        var newTextNode = document.createTextNode(courses[i]);
+        newEl.appendChild(newTextNode);
+        newEl.className = "course";
+
+        // lägger till till listan
+        courseListEl.appendChild(newEl);
+
+        // lägg till en klickhanterare
+        newEl.addEventListener("click", function (e) {
+            e.target.remove();
+
+            // lagra listan 
+            saveCourses();
+        });
+    }
+
+}
