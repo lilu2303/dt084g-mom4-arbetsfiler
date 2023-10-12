@@ -14,7 +14,6 @@ window.onload = init;
 
 // start-funktion 
 function init() {
-    console.log("initierar...")
 
     // inaktivera lägg till-knappen 
     addCourseButtonEl.disabled = true;
@@ -25,13 +24,14 @@ function init() {
 
 // rensar storage
 function deleteItem() {
+localStorage.clear();
 
+courseListEl.innerHTML = "";
 
 }
 // kontrollera input 
 function checkInput() {
-    console.log("kontrolerar")
-
+    
     let input = addCourseEl.value;
 
     // kontroll av korrekt längd 
@@ -46,12 +46,11 @@ function checkInput() {
 
 // lägg till kurser
 function addItem() {
-    console.log("lägger till kurs...")
 
     let input = addCourseEl.value;
 
     // skapar nytt element 
-    let newEl = document.createElement("li");
+    let newEl = document.createElement("article");
     let newTextNode = document.createTextNode(input);
     newEl.appendChild(newTextNode);
     newEl.className = "course";
@@ -90,8 +89,6 @@ function storeItem() {
 
     // lagra i web storage
     localStorage.setItem("courses", jsonStr);
-
-    console.log(tempArr);
 }
 
 // läs in kurs
@@ -105,7 +102,7 @@ function loadStorage() {
     for (i = 0; i < courses.length; i++) {
 
         // skapar nya element 
-        let newEl = document.createElement("li");
+        let newEl = document.createElement("article");
         let newTextNode = document.createTextNode(courses[i]);
         newEl.appendChild(newTextNode);
         newEl.className = "course";
@@ -121,7 +118,6 @@ function loadStorage() {
             storeItem();
         });
 
-        console.log(courses);
     }
 
 }

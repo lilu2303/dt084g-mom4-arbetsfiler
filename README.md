@@ -24,7 +24,8 @@ Nedan beskrivs det steg för steg hur jag gjorde för att lössa uppgiften:
 14. Anropar lagring
 15. Spara kurser 
 16. Läser in kurslistan
-17. Loopar genom listan och lagrar till temporär array
+17. Rensar storage
+18. Loopar genom listan och lagrar till temporär array
 19. Konverterar till JSON-sträng
 20. Lagra i web storage
 21. Läsa in kurser igen
