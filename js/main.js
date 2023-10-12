@@ -1,32 +1,41 @@
 // variabler
-var addCourseEl = document.getElementById("addCourse");
-var addCourseButtonEl = document.getElementById("addCourseButton");
-var errormessageEl = document.getElementById("errorMessage");
-var courseListEl = document.getElementById("courseList");
-var i;
+let addCourseEl = document.getElementById("newtodo");
+let addCourseButtonEl = document.getElementById("newtodobutton");
+let errormessageEl = document.getElementById("message");
+let courseListEl = document.getElementById("todolist");
+let deleteCourseButtonEl = document.getElementById("clearbutton");
+
 
 //händelsehanterare
 addCourseEl.addEventListener("keyup", checkInput, false);
-addCourseButtonEl.addEventListener("click", addCourse, false);
+addCourseButtonEl.addEventListener("click", addItem, false);
+deleteCourseButtonEl.addEventListener("click", deleteItem, true);
 window.onload = init;
 
-// start-funktion
+// start-funktion 
 function init() {
+    console.log("initierar...")
+
+    // inaktivera lägg till-knappen 
+    addCourseButtonEl.disabled = true;
+
+    // läs in kurslista 
+    loadStorage();
 }
 
-// inaktivera lägg till-knappen 
-addCourseButtonEl.disabled = true;
+// rensar storage
+function deleteItem() {
 
-// läser in kurslista
-loadCourses();
 
-//kontrollera input 
+}
+// kontrollera input 
 function checkInput() {
+    console.log("kontrolerar")
 
-    var input = addCourseEl.value;
+    let input = addCourseEl.value;
 
-      // kontroll av korrekt längd 
-      if (input.length > 5) {
+    // kontroll av korrekt längd 
+    if (input.length > 4) {
         errormessageEl.innerHTML = "";
         addCourseButtonEl.disabled = false;
     } else {
@@ -35,14 +44,15 @@ function checkInput() {
     }
 }
 
-//lägga till kurs
-function addCourse() {
+// lägg till kurser
+function addItem() {
+    console.log("lägger till kurs...")
 
-    var input = addCourseEl.value;
+    let input = addCourseEl.value;
 
     // skapar nytt element 
-    var newEl = document.createElement("li");
-    var newTextNode = document.createTextNode(input);
+    let newEl = document.createElement("li");
+    let newTextNode = document.createTextNode(input);
     newEl.appendChild(newTextNode);
     newEl.className = "course";
 
@@ -57,43 +67,46 @@ function addCourse() {
     // raderar input-fält
     addCourseEl.value = "";
     addCourseButtonEl.disabled = true;
-    
+
     // anropar lagring
-    saveCourses();
+    storeItem()
 }
 
-//spara kurser 
-function saveCourses() {
+// spara kurs
+function storeItem() {
+    console.log("lagrar kurslista...")
 
     // läs in kurslistan 
-    var courses = document.getElementsByClassName("course");
+    let courses = document.getElementsByClassName("course");
 
-    var tempArr = [];
+    let tempArr = [];
 
     // loopar genom listan och lagrar till temporär array
     for (i = 0; i < courses.length; i++) {
         tempArr.push(courses[i].innerHTML);
     }
-
     //konverterar till JSON-sträng
-    var jsonStr = JSON.stringify(tempArr);
+    let jsonStr = JSON.stringify(tempArr);
 
     // lagra i web storage
     localStorage.setItem("courses", jsonStr);
 
+    console.log(tempArr);
 }
 
-//läsa in kurser
-function loadCourses() {
+// läs in kurs
+function loadStorage() {
+    console.log("läser in kurslista...")
 
     // läser in och konverterar JSON till array
-    var courses = JSON.parse(localStorage.getItem("courses"));
+    let courses = JSON.parse(localStorage.getItem("courses"));
 
     // loopa igenom arrayen
     for (i = 0; i < courses.length; i++) {
+
         // skapar nya element 
-        var newEl = document.createElement("li");
-        var newTextNode = document.createTextNode(courses[i]);
+        let newEl = document.createElement("li");
+        let newTextNode = document.createTextNode(courses[i]);
         newEl.appendChild(newTextNode);
         newEl.className = "course";
 
@@ -105,8 +118,10 @@ function loadCourses() {
             e.target.remove();
 
             // lagra listan 
-            saveCourses();
+            storeItem();
         });
+
+        console.log(courses);
     }
 
 }
